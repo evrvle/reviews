@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add review</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Add review</h1>
+    <div>
+        <input type="text" id="productName" placeholder="product name">
+        <textarea id="reviewText" placeholder="your review"></textarea>
+        <button id="addReview">Add review</button>
+    </div>
+    <div>
+        <a href="view-reviews.html">View reviews</a>
+    </div>
+
+    <script>
+
+document.addEventListener('DOMContentLoaded', () => {
+    const addReviewButton = document.getElementById('addReview');
+    const productNameInput = document.getElementById('productName');
+    const reviewTextInput = document.getElementById('reviewText');
+
+    function saveReview(productName, reviewText) {
+        const reviews = JSON.parse(localStorage.getItem('reviews')) || {};
+        if (!reviews[productName]) {
+            reviews[productName] = [];
+        }
+        reviews[productName].push(reviewText);
+        localStorage.setItem('reviews', JSON.stringify(reviews));
+        alert('Added!');
+        productNameInput.value = '';
+        reviewTextInput.value = '';
+    }
+
+    addReviewButton.addEventListener('click', () => {
+        const productName = productNameInput.value.trim();
+        const reviewText = reviewTextInput.value.trim();
+
+        if (productName && reviewText) {
+            saveReview(productName, reviewText);
+        } else {
+            alert('Please fill the required fields.');
+        }
+    });
+});
+
+    </script>
+</body>
+</html>

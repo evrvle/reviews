@@ -1,0 +1,25 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+input, textarea {
+    display: block;
+    margin-bottom: 10px;
+    width: 300px;
+}
+
+#reviewsList {
+    margin-top: 20px;
+}
+
+.review {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.delete-button {
+    color: red;
+    cursor: pointer;
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View reviews</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>View reviews</h1>
+    <div id="reviewsList"></div>
+    <div>
+        <a href="add-reviews.html">Add review</a>
+    </div>
+
+    <script>
+
+document.addEventListener('DOMContentLoaded', () => {
+    const reviewsList = document.getElementById('reviewsList');
+
+    function displayReviews() {
+        reviewsList.innerHTML = '';
+        const reviews = JSON.parse(localStorage.getItem('reviews')) || {};
+        
+        for (const product in reviews) {
+            const productDiv = document.createElement('div');
+            productDiv.classList.add('review');
+            productDiv.innerHTML = `<strong>${product}</strong>`;
+            
+            reviews[product].forEach((review, index) => {
+                const reviewDiv = document.createElement('div');
+                reviewDiv.innerHTML = `${review} 
+                    <span class="delete-button" data-product="${product}" data-index="${index}">Удалить</span>`;
+                productDiv.appendChild(reviewDiv);
+            });
+            
+            reviewsList.appendChild(productDiv);
+        }
+        
+        document.querySelectorAll('.delete-button').forEach(button => {
+            button.addEventListener('click', deleteReview);
+        });
+    }
+
+    function deleteReview(event) {
+        const productName = event.target.dataset.product;
+        const index = event.target.dataset.index;
+
+        const reviews = JSON.parse(localStorage.getItem('reviews'));
+        reviews[productName].splice(index, 1);
+
+        if (reviews[productName].length === 0) {
+            delete reviews[productName];
+        }
+
+        localStorage.setItem('reviews', JSON.stringify(reviews));
+        displayReviews();
+    }
+
+    displayReviews();
+});
+
+    </script>
+</body>
+</html>
